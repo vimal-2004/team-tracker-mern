@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from 'react'
 import axios from 'axios'
 import toast from 'react-hot-toast'
+import { API_BASE_URL } from '../config'
 
 const TaskContext = createContext()
 
@@ -21,7 +22,7 @@ export const TaskProvider = ({ children }) => {
     setLoading(true)
     try {
       const params = new URLSearchParams(filters)
-      const response = await axios.get(`/api/tasks?${params}`)
+      const response = await axios.get(`${API_BASE_URL}/api/tasks?${params}`)
       setTasks(response.data.tasks)
       return response.data.tasks
     } catch (error) {
@@ -38,7 +39,7 @@ export const TaskProvider = ({ children }) => {
     setLoading(true)
     try {
       const params = new URLSearchParams(filters)
-      const response = await axios.get(`/api/tasks/my?${params}`)
+      const response = await axios.get(`${API_BASE_URL}/api/tasks/my?${params}`)
       setTasks(response.data.tasks)
       return response.data.tasks
     } catch (error) {
@@ -53,7 +54,7 @@ export const TaskProvider = ({ children }) => {
   // Create task (Admin only)
   const createTask = async (taskData) => {
     try {
-      const response = await axios.post('/api/tasks', taskData)
+      const response = await axios.post(`${API_BASE_URL}/api/tasks`, taskData)
       setTasks(prev => [response.data.task, ...prev])
       toast.success('Task created successfully')
       return response.data.task
@@ -67,7 +68,7 @@ export const TaskProvider = ({ children }) => {
   // Update task
   const updateTask = async (taskId, updateData) => {
     try {
-      const response = await axios.put(`/api/tasks/${taskId}`, updateData)
+      const response = await axios.put(`${API_BASE_URL}/api/tasks/${taskId}`, updateData)
       setTasks(prev => 
         prev.map(task => 
           task._id === taskId ? response.data.task : task
@@ -86,7 +87,7 @@ export const TaskProvider = ({ children }) => {
   // Delete task (Admin only)
   const deleteTask = async (taskId) => {
     try {
-      await axios.delete(`/api/tasks/${taskId}`)
+      await axios.delete(`${API_BASE_URL}/api/tasks/${taskId}`)
       setTasks(prev => prev.filter(task => task._id !== taskId))
       toast.success('Task deleted successfully')
     } catch (error) {
@@ -99,7 +100,7 @@ export const TaskProvider = ({ children }) => {
   // Get single task
   const getTask = async (taskId) => {
     try {
-      const response = await axios.get(`/api/tasks/${taskId}`)
+      const response = await axios.get(`${API_BASE_URL}/api/tasks/${taskId}`)
       return response.data.task
     } catch (error) {
       const message = error.response?.data?.message || 'Failed to fetch task'

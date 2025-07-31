@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import axios from 'axios'
 import toast from 'react-hot-toast'
+import { API_BASE_URL } from '../config'
 
 const AuthContext = createContext()
 
@@ -30,7 +31,7 @@ export const AuthProvider = ({ children }) => {
       const token = localStorage.getItem('token')
       if (token) {
         try {
-          const response = await axios.get('/api/auth/me')
+          const response = await axios.get(`${API_BASE_URL}/api/auth/me`)
           setUser(response.data.user)
         } catch (error) {
           localStorage.removeItem('token')
@@ -45,7 +46,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password, role) => {
     try {
-      const response = await axios.post(`/api/auth/${role}/login`, {
+      const response = await axios.post(`${API_BASE_URL}/api/auth/${role}/login`, {
         email,
         password
       })
@@ -65,7 +66,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (name, email, password, role) => {
     try {
-      const response = await axios.post(`/api/auth/${role}/register`, {
+      const response = await axios.post(`${API_BASE_URL}/api/auth/${role}/register`, {
         name,
         email,
         password
