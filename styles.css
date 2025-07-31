@@ -1,0 +1,52 @@
+:root {
+  --bg-light: #f8f9fa;
+  --text-light: #212529;
+  --border-light: #dee2e6;
+  --bg-dark: #212529;
+  --text-dark: #f8f9fa;
+  --border-dark: #495057;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  min-height: 100vh;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.app.light {
+  background-color: var(--bg-light);
+  color: var(--text-light);
+}
+
+.app.dark {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.light .theme-toggle {
+  background-color: var(--bg-light);
+  color: var(--text-light);
+  border: 1px solid var(--border-light);
+}
+
+.dark .theme-toggle {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+  border: 1px solid var(--border-dark);
+}

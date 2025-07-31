@@ -1,0 +1,19 @@
+{
+  "name": "team-task-tracker",
+  "version": "1.0.0",
+  "description": "A MERN stack Team Task Tracker application",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd backend && npm run dev",
+    "client": "cd frontend && npm run dev",
+    "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "build": "cd frontend && npm run build"
+  },
+  "keywords": ["mern", "task-tracker", "react", "node", "mongodb"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+} 
