@@ -8,7 +8,7 @@ export default defineConfig({
     port: 3005,
     proxy: {
       '/api': {
-        target: 'http://localhost:5009',
+        target: 'https://team-tracker-mern-1.onrender.com',
         changeOrigin: true
       }
     }

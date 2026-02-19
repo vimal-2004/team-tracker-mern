@@ -4,6 +4,13 @@ import toast from 'react-hot-toast'
 
 const AuthContext = createContext()
 
+// Set axios base URL for API calls
+const API_BASE_URL = import.meta.env.PROD 
+  ? 'https://team-tracker-mern-1.onrender.com'
+  : 'http://localhost:5009'
+
+axios.defaults.baseURL = API_BASE_URL
+
 export const useAuth = () => {
   const context = useContext(AuthContext)
   if (!context) {
