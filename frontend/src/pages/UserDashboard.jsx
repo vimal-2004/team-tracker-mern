@@ -1,9 +1,26 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import { useTask } from '../contexts/TaskContext'
+import Notifications from '../components/Notifications'
 import { LogOut, Search, Calendar, CheckCircle, Clock, AlertCircle, BarChart3 } from 'lucide-react'
 import TaskList from '../components/TaskList'
 import DarkModeToggle from '../components/DarkModeToggle';
+
+const DashboardBackground = () => (
+  <div className="absolute inset-0 -z-10">
+    <svg width="100%" height="100%" viewBox="0 0 1440 600" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      <defs>
+        <linearGradient id="bg-gradient" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.15" />
+          <stop offset="100%" stopColor="#818cf8" stopOpacity="0.10" />
+        </linearGradient>
+      </defs>
+      <ellipse cx="720" cy="300" rx="900" ry="300" fill="url(#bg-gradient)" />
+      <ellipse cx="300" cy="100" rx="200" ry="80" fill="#818cf8" fillOpacity="0.08" />
+      <ellipse cx="1200" cy="500" rx="180" ry="60" fill="#60a5fa" fillOpacity="0.07" />
+    </svg>
+  </div>
+);
 
 const UserDashboard = () => {
   const { user, logout } = useAuth()
@@ -40,9 +57,10 @@ const UserDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div className="relative min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 overflow-x-hidden">
+      <DashboardBackground />
       {/* Enhanced Header */}
-      <header className="header-gradient shadow-lg relative overflow-hidden">
+      <header className="header-gradient shadow-lg relative overflow-hidden rounded-b-3xl mb-8">
         {/* SVG Illustration */}
         <svg className="absolute top-0 right-0 w-48 h-32 opacity-40 pointer-events-none" viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M0 0 Q100 100 200 0 V100 H0 V0Z" fill="url(#paint0_linear)" />
@@ -54,13 +72,14 @@ const UserDashboard = () => {
           </defs>
         </svg>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="flex justify-between items-center py-6">
+          <div className="flex justify-between items-center py-8">
             <div>
-              <h1 className="page-title">My Dashboard</h1>
+              <h1 className="page-title text-3xl font-extrabold tracking-tight">My Dashboard</h1>
               <p className="text-gray-600 text-lg dark:text-gray-300">Welcome back, {user?.name}</p>
             </div>
             <div className="flex items-center gap-3">
               <DarkModeToggle />
+              <Notifications />
               <button
                 onClick={logout}
                 className="btn-secondary flex items-center"
@@ -75,8 +94,8 @@ const UserDashboard = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Enhanced Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="stats-card">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+          <div className="stats-card fade-in-up scale-hover" style={{ animationDelay: '0.1s' }}>
             <div className="flex items-center">
               <div className="icon-container">
                 <BarChart3 className="w-6 h-6 text-blue-600" />
@@ -87,8 +106,7 @@ const UserDashboard = () => {
               </div>
             </div>
           </div>
-
-          <div className="stats-card">
+          <div className="stats-card fade-in-up scale-hover" style={{ animationDelay: '0.2s' }}>
             <div className="flex items-center">
               <div className="icon-container-yellow">
                 <Clock className="w-6 h-6 text-yellow-600" />
@@ -99,8 +117,7 @@ const UserDashboard = () => {
               </div>
             </div>
           </div>
-
-          <div className="stats-card">
+          <div className="stats-card fade-in-up scale-hover" style={{ animationDelay: '0.3s' }}>
             <div className="flex items-center">
               <div className="icon-container">
                 <AlertCircle className="w-6 h-6 text-blue-600" />
@@ -111,8 +128,7 @@ const UserDashboard = () => {
               </div>
             </div>
           </div>
-
-          <div className="stats-card">
+          <div className="stats-card fade-in-up scale-hover" style={{ animationDelay: '0.4s' }}>
             <div className="flex items-center">
               <div className="icon-container-green">
                 <CheckCircle className="w-6 h-6 text-green-600" />

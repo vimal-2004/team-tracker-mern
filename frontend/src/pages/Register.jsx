@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import { useTheme } from '../contexts/ThemeContext'
 import { Eye, EyeOff, User, Shield, UserPlus } from 'lucide-react'
 
 const Register = () => {
@@ -14,6 +15,7 @@ const Register = () => {
   })
   const [loading, setLoading] = useState(false)
   const { register } = useAuth()
+  const { theme } = useTheme()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -47,7 +49,7 @@ const Register = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
       <div className="form-container">
         <div className="text-center">
           {/* SVG Illustration */}
@@ -68,10 +70,10 @@ const Register = () => {
               </defs>
             </svg>
           </div>
-          <h2 className="page-title mb-2">
+          <h2 className="page-title mb-2 dark:text-white">
             Create Account
           </h2>
-          <p className="text-gray-600 text-lg">
+          <p className="text-gray-600 dark:text-gray-300 text-lg">
             Join Team Task Tracker
           </p>
         </div>

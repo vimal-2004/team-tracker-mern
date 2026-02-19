@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import { useTheme } from '../contexts/ThemeContext'
 import { Eye, EyeOff, User, Shield, CheckCircle } from 'lucide-react'
 
 const Login = () => {
@@ -12,6 +13,7 @@ const Login = () => {
   })
   const [loading, setLoading] = useState(false)
   const { login } = useAuth()
+  const { theme } = useTheme()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -34,7 +36,7 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
       <div className="form-container">
         <div className="text-center">
           {/* SVG Illustration */}
@@ -53,10 +55,10 @@ const Login = () => {
               </defs>
             </svg>
           </div>
-          <h2 className="page-title mb-2">
+          <h2 className="page-title mb-2 dark:text-white">
             Team Task Tracker
           </h2>
-          <p className="text-gray-600 text-lg">
+          <p className="text-gray-600 dark:text-gray-300 text-lg">
             Sign in to your account
           </p>
         </div>
@@ -90,7 +92,7 @@ const Login = () => {
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-5">
             <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+              <label htmlFor="email" className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">
                 Email address
               </label>
               <input
@@ -101,13 +103,13 @@ const Login = () => {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="input-field"
+                className="input-field dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                 placeholder="Enter your email"
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
+              <label htmlFor="password" className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">
                 Password
               </label>
               <div className="relative">
@@ -119,7 +121,7 @@ const Login = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="input-field pr-12"
+                  className="input-field pr-12 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                   placeholder="Enter your password"
                 />
                 <button
@@ -128,9 +130,9 @@ const Login = () => {
                   className="absolute inset-y-0 right-0 pr-4 flex items-center"
                 >
                   {showPassword ? (
-                    <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600 transition-colors" />
+                    <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors" />
                   ) : (
-                    <Eye className="h-5 w-5 text-gray-400 hover:text-gray-600 transition-colors" />
+                    <Eye className="h-5 w-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors" />
                   )}
                 </button>
               </div>
@@ -152,11 +154,11 @@ const Login = () => {
           </div>
 
           <div className="text-center">
-            <p className="text-gray-600">
+            <p className="text-gray-600 dark:text-gray-300">
               Don't have an account?{' '}
               <Link
                 to="/register"
-                className="font-semibold text-blue-600 hover:text-blue-700 transition-colors"
+                className="font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
               >
                 Register here
               </Link>

@@ -78,35 +78,31 @@ const TaskList = ({ tasks, loading, isAdmin, onTaskUpdate }) => {
 
   return (
     <div className="space-y-6">
-      {tasks.map((task) => (
-        <div key={task._id} className="card p-6 card-hover">
+      {tasks.map((task, idx) => (
+        <div key={task._id} className="card p-6 fade-in-up scale-hover" style={{ animationDelay: `${0.1 + idx * 0.1}s` }}>
           <div className="flex justify-between items-start">
             <div className="flex-1">
               <div className="flex items-center space-x-3 mb-3">
                 <h3 className="text-xl font-bold text-gray-900">{task.title}</h3>
-                <span className={`status-badge ${getStatusColor(task.status)}`}>
-                  {task.status}
+                <span className={`status-badge flex items-center gap-1 ${getStatusColor(task.status)}`}>
+                  {getStatusIcon(task.status)} {task.status}
                 </span>
-                <span className={`status-badge ${getPriorityColor(task.priority)}`}>
-                  {task.priority}
+                <span className={`status-badge flex items-center gap-1 ${getPriorityColor(task.priority)}`}>
+                  <AlertCircle className="w-4 h-4" /> {task.priority}
                 </span>
               </div>
-              
               <p className="text-gray-600 mb-4 text-lg leading-relaxed">{task.description}</p>
-              
               <div className="flex items-center space-x-8 text-sm text-gray-500">
                 <div className="flex items-center space-x-2">
                   <Calendar className="w-4 h-4" />
                   <span className="font-medium">Due: {new Date(task.dueDate).toLocaleDateString()}</span>
                 </div>
-                
                 {isAdmin && (
                   <div className="flex items-center space-x-2">
                     <User className="w-4 h-4" />
                     <span className="font-medium">Assigned to: {task.assignedTo?.name || 'Unknown'}</span>
                   </div>
                 )}
-                
                 {task.createdBy && (
                   <div className="flex items-center space-x-2">
                     <User className="w-4 h-4" />
@@ -115,7 +111,6 @@ const TaskList = ({ tasks, loading, isAdmin, onTaskUpdate }) => {
                 )}
               </div>
             </div>
-            
             <div className="flex items-center space-x-2 ml-6">
               <button
                 onClick={() => setEditingTask(task)}
@@ -124,7 +119,6 @@ const TaskList = ({ tasks, loading, isAdmin, onTaskUpdate }) => {
               >
                 <Edit className="w-4 h-4" />
               </button>
-              
               {isAdmin && (
                 <button
                   onClick={() => handleDelete(task._id)}
@@ -138,7 +132,6 @@ const TaskList = ({ tasks, loading, isAdmin, onTaskUpdate }) => {
           </div>
         </div>
       ))}
-
       {editingTask && (
         <EditTaskModal
           task={editingTask}

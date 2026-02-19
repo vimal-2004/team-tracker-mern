@@ -199,4 +199,38 @@ router.get('/me', authenticateToken, async (req, res) => {
   });
 });
 
+// POST /api/auth/magic-login - Exchange magic token for regular auth token
+router.post('/magic-login', async (req, res) => {
+  try {
+    const { token } = req.body;
+    if (!token) return res.status(400).json({ message: 'Token is required' });
+
+    const jwt = require('jsonwebtoken');
+    let payload;
+    try {
+      payload = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
+      return res.status(401).json({ message: 'Invalid or expired token' });
+    }
+
+    if (!payload || payload.type !== 'magic' || !payload.userId) {
+      return res.status(401).json({ message: 'Invalid token' });
+    }
+
+    const user = await User.findById(payload.userId);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    // Issue the regular auth token
+    const authToken = generateToken(user._id);
+    res.json({
+      message: 'Magic login successful',
+      token: authToken,
+      user: { id: user._id, name: user.name, email: user.email, role: user.role }
+    });
+  } catch (error) {
+    console.error('Magic login error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 module.exports = router; 

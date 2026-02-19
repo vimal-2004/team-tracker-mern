@@ -9,14 +9,7 @@ dotenv.config(); // Fixed: Now loads .env file automatically
 const app = express();
 
 // Middleware
-app.use(cors({
-  origin: [
-    'https://team-tracker-mern.vercel.app',
-    'http://localhost:5173',
-    'http://localhost:3000'
-  ],
-  credentials: true
-}));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

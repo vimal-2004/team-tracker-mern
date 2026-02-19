@@ -58,7 +58,22 @@ router.post('/', authenticateToken, requireAdmin, validateTask, async (req, res)
     // Populate assigned user details
     await task.populate('assignedTo', 'name email');
 
-    // Send email notification to assigned user
+    // Build magic login token that expires shortly so user can login directly
+    const jwt = require('jsonwebtoken');
+    const magicToken = jwt.sign({ userId: assignedUser._id, type: 'magic' }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+    const magicLink = `${frontendUrl}/auth/magic?token=${magicToken}`;
+
+    // Add notification to user record
+    assignedUser.notifications = assignedUser.notifications || [];
+    assignedUser.notifications.unshift({
+      title: 'New Task Assigned',
+      message: `You were assigned the task: ${title}`,
+      link: `/tasks/${task._id}`
+    });
+    await assignedUser.save();
+
+    // Send email notification to assigned user (nodemailer)
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -79,12 +94,14 @@ router.post('/', authenticateToken, requireAdmin, validateTask, async (req, res)
           <li><strong>Priority:</strong> ${priority}</li>
           <li><strong>Due Date:</strong> ${new Date(dueDate).toLocaleString()}</li>
         </ul>
-        <p>Please log in to your account to view and manage this task.</p>
+        <p>You can view the task in the app. Click the button below to login and go to the task:</p>
+        <p><a href="${magicLink}" style="display:inline-block;padding:10px 16px;background:#2563EB;color:#fff;border-radius:6px;text-decoration:none;">Open Task</a></p>
+        <p>If the button doesn't work, copy and paste this link into your browser:</p>
+        <p><small>${magicLink}</small></p>
         <br/>
         <p>Best regards,<br/>Team Task Tracker</p>`
     };
 
-    // Send the email (do not block response if it fails)
     transporter.sendMail(mailOptions, (err, info) => {
       if (err) {
         console.error('Error sending assignment email:', err);
